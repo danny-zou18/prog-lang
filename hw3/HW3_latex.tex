@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 % Configure code listings
 \lstset{
@@ -100,13 +101,40 @@ procedure main
 
 
 \item[c)] (5pts) Now, what does this program print under dynamic scoping?
+
+\begin{verbatim}
+ Output:  9
+          4
+          2
+          1
+\end{verbatim}
+
 \item[d)] (5pts) Explain how \texttt{R} finds \texttt{x} under dynamic scoping rules.
+
+\vspace{0.1in}
+
+Under dynamic scoping, when \texttt{R} executes write\_integer(\texttt{x}), it looks for \texttt{x} in this order up the call chain:
+
+\vspace{0.1in}
+
+1. It's own frame - \texttt{R}'s local vars - if not found, then move onto
+
+2. The caller's frame - \texttt{B}'s local vars - if not found, then onto
+
+3. The caller's caller's frame - \texttt{main}'s local vars, and so on
+
+\vspace{0.1in}
+
+Here, R does not have its own x.
+So it searches up the call chain and finds x in the B frame,
+which it then uses continuously to reference, modify, and print out.
 
 \end{itemize}
 
 
 \vspace{1in}
 
+\newpage
 
 \noindent{\bf Problem 2} (30pts). The grammar below
 generates boolean expressions in prefix form:
@@ -120,40 +148,105 @@ generates boolean expressions in prefix form:
 
 \item[a)] (5pts) Write an attribute grammar (in pseudocode) to translate expressions into fully parenthesized infix form. For example, 
 expression \texttt{and and a or b c d} turns into the following fully parenthesized expression \texttt{((a and (b or c)) and d)}. 
+\vspace{0.2in}
+
+{\small
+\hspace*{-.5cm}
+\begin{tabular}{r@{\hspace{1em}}c@{\hspace{2em}}l}
+1. & $\text{expr} \to \text{or expr}_1 \text{ expr}_2$ 
+   & $\text{expr.val} := "(" + \text{expr}_1.\text{val} + " \text{ or } " + \text{expr}_2.\text{val} + ")"$ \\[6pt]
+2. & $\text{expr} \to \text{and expr}_1 \text{ expr}_2$ 
+   & $\text{expr.val} := "(" + \text{expr}_1.\text{val} + " \text{ and } " + \text{expr}_2.\text{val} + ")"$ \\[6pt]
+3. & $\text{expr} \to \text{not expr}_1$ 
+   & $\text{expr.val} := "( \text{not } " + \text{expr}_1.\text{val} + ")"$ \\[6pt]
+4. & $\text{expr} \to \text{id}$ 
+   & $\text{expr.val} := \text{id.s}$ \\
+\end{tabular}
+}
+\vspace{0.2in}
+
+
 \item[b)] (5pts) Now write an attribute grammar (in pseudocode again) to translate the expressions into \emph{parenthesized} 
 expressions in infix form \emph{without redundant parentheses} assuming the standard convention: unary \texttt{not} has highest precedence, 
 followed by \texttt{and}, followed by \texttt{or}, and \texttt{and} and \texttt{or} are left-associative. For example, the above expression 
 turns into \texttt{a and (b or c) and d}. \emph{Hint:} Assign a precedence attribute $\mathit{prec}$ to operators and expressions. 
 In part c) and part d) you will code your solution respectively in Python and in Prolog. 
 
-\item[c)] (10pts) Code in Python a predictive recursive descent parser for the grammar that also does infix translation without redundant parentheses. (Note that we can code such a parser because the grammar is LL(1).) For simplicity, assume that identifiers are lower-case letters from \texttt{a} to \texttt{z} and that the input has already been tokenized. Submit file \texttt{predictive\_rec\_descent.py} with function \texttt{parse}. \texttt{parse} takes the input list of tokens and outputs the properly parenthesized infix string if the input is in the language. It produces the empty string otherwise. Follow the structure of recursive descent from lecture (e.g., Lecture4, slides 9 and 10).  Here is how Submitty runs the function: 
+\vspace{0.1in}
 
-\begin{lstlisting}[language=Python]
-python -i predictive_rec_descent.py
->>> parse(['and','and','a','or','b','c','d'])
-a and ( b or c ) and d
->>> parse(['and','and','a','or','b','c'])
+First, let's assign two synthesized attributes to the expressions/terminals:
 
->>> parse(['and','a','and','b','c'])
-a and ( b and c )
+\vspace{0.1in}
 
-\end{lstlisting}
+\begin{itemize}
+     \item[1.] \texttt{val} - the resulting infix string
+     \item[2.] \texttt{prec} - it's precendence (higher number means higher precedence)
+\end{itemize}
 
-\item[d)] (10pts) Now code the same parser in Prolog. Submit file \texttt{predictive\_rec\_descent.pl}
+\vspace{0.1in}
 
-\begin{lstlisting}[language=Prolog]
-?- parse([and,and,a,or,b,c,d],R).
-R = 'a and ( b or c ) and d' ;
-false.
+Then, synthesize precedences to the operators/terminals(\small{prec(operator)})(Higher number means higher precedence):
 
-?- parse([and,and,a,or,b,c],R).
-false.
+\vspace{-.09in}
 
-?- parse([and,a,and,b,c],R).
-R = 'a and ( b and c )' ;
-false.
-\end{lstlisting}
+\[
+\begin{array}{cccc}
+\text{prec(id)} = 4 & \text{prec(not)} = 3 & \text{prec(and)} = 2 & \text{prec(or)} = 1
+\end{array}
+\]
 
+\vspace{0.1in}
+
+Now, let's write the attribute grammar with helper functions $\text{paren}_L$(E, p), $\text{paren}_R$(E, p), and $\text{paren}_{un}$(E, p) that adds parentheses to the left, right, or unary expression E if its precedence is lower than p.:
+
+\vspace{0.1in}
+
+{\small
+\hspace*{-.5cm}
+\begin{tabular}{r@{\hspace{1em}}c@{\hspace{2em}}l}
+1. & $\text{expr} \to \text{or expr}_1 \text{ expr}_2$ 
+   & $\text{expr.prec} := 1$ \\
+   & & $\text{expr}.\text{val} := \text{paren}_L(\text{expr}_1, 1) \text{ } + \text{ " or " } + \text{ paren}_R(\text{expr}_2, 1)  $\\[6pt]
+2. & $\text{expr} \to \text{and expr}_1 \text{ expr}_2$ 
+   & $\text{expr.prec} := 2$ \\
+   & & $\text{expr}.\text{val} := \text{paren}_L(\text{expr}_1, 2) \text{ } + \text{ " and " } + \text{ paren}_R(\text{expr}_2, 2)  $\\[6pt]
+3. & $\text{expr} \to \text{not expr}_1$ 
+   & $\text{expr.prec} := 3$ \\
+   & & $\text{expr}.\text{val} := \text{"not "}  + \text{ paren}_{un}(\text{expr}_1, 3)$\\[6pt]
+4. & $\text{expr} \to \text{id}$ 
+   & $\text{expr.prec} := 4$ \\
+   & & $\text{expr}.\text{val} := \text{id.s}$ \\[6pt]
+\end{tabular}
+}
+
+CONTINUED ON NEXT PAGE
+
+\newpage
+
+Helper functions:
+
+\[
+\operatorname{paren}_L(E,p)=
+\begin{cases}
+( E.\mathrm{val} ) & \text{if } E.\mathrm{prec} < p, \\
+E.\mathrm{val}    & \text{otherwise.}
+\end{cases}
+\]
+\[
+\operatorname{paren}_R(E,p)=
+\begin{cases}
+( E.\mathrm{val} ) & \text{if } E.\mathrm{prec} \le p, \\
+E.\mathrm{val}     & \text{otherwise.}
+\end{cases}
+\]
+
+\[
+\operatorname{paren}_{\mathrm{un}}(E,p)=
+\begin{cases}
+( E.\mathrm{val} ) & \text{if } E.\mathrm{prec} < p, \\
+E.\mathrm{val}     & \text{otherwise.}
+\end{cases}
+\]
 
 \end{itemize}
 
