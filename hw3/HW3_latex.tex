@@ -201,28 +201,6 @@ Now, let's write the attribute grammar with helper functions $\text{paren}_L$(E,
 
 \vspace{0.1in}
 
-{\small
-\hspace*{-.5cm}
-\begin{tabular}{r@{\hspace{1em}}c@{\hspace{2em}}l}
-1. & $\text{expr} \to \text{or expr}_1 \text{ expr}_2$ 
-   & $\text{expr.prec} := 1$ \\
-   & & $\text{expr}.\text{val} := \text{paren}_L(\text{expr}_1, 1) \text{ } + \text{ " or " } + \text{ paren}_R(\text{expr}_2, 1)  $\\[6pt]
-2. & $\text{expr} \to \text{and expr}_1 \text{ expr}_2$ 
-   & $\text{expr.prec} := 2$ \\
-   & & $\text{expr}.\text{val} := \text{paren}_L(\text{expr}_1, 2) \text{ } + \text{ " and " } + \text{ paren}_R(\text{expr}_2, 2)  $\\[6pt]
-3. & $\text{expr} \to \text{not expr}_1$ 
-   & $\text{expr.prec} := 3$ \\
-   & & $\text{expr}.\text{val} := \text{"not "}  + \text{ paren}_{un}(\text{expr}_1, 3)$\\[6pt]
-4. & $\text{expr} \to \text{id}$ 
-   & $\text{expr.prec} := 4$ \\
-   & & $\text{expr}.\text{val} := \text{id.s}$ \\[6pt]
-\end{tabular}
-}
-
-CONTINUED ON NEXT PAGE
-
-\newpage
-
 Helper functions:
 
 \[
@@ -247,6 +225,33 @@ E.\mathrm{val}     & \text{otherwise.}
 E.\mathrm{val}     & \text{otherwise.}
 \end{cases}
 \]
+CONTINUED ON NEXT PAGE
+
+\newpage
+
+Attribute Grammer:
+
+\vspace{0.2in}
+
+{\small
+\hspace*{-.5cm}
+\begin{tabular}{r@{\hspace{1em}}c@{\hspace{2em}}l}
+1. & $\text{expr} \to \text{or expr}_1 \text{ expr}_2$ 
+   & $\text{expr.prec} := 1$ \\
+   & & $\text{expr}.\text{val} := \text{paren}_L(\text{expr}_1, 1) \text{ } + \text{ " or " } + \text{ paren}_R(\text{expr}_2, 1)  $\\[6pt]
+2. & $\text{expr} \to \text{and expr}_1 \text{ expr}_2$ 
+   & $\text{expr.prec} := 2$ \\
+   & & $\text{expr}.\text{val} := \text{paren}_L(\text{expr}_1, 2) \text{ } + \text{ " and " } + \text{ paren}_R(\text{expr}_2, 2)  $\\[6pt]
+3. & $\text{expr} \to \text{not expr}_1$ 
+   & $\text{expr.prec} := 3$ \\
+   & & $\text{expr}.\text{val} := \text{"not "}  + \text{ paren}_{un}(\text{expr}_1, 3)$\\[6pt]
+4. & $\text{expr} \to \text{id}$ 
+   & $\text{expr.prec} := 4$ \\
+   & & $\text{expr}.\text{val} := \text{id.s}$ \\[6pt]
+\end{tabular}
+}
+
+
 
 \end{itemize}
 

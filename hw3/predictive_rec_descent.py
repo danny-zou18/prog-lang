@@ -3,9 +3,6 @@ from typing import List, Tuple
 
 precedences = {'or': 1, 'and': 2, 'not': 3, 'id': 4}
 
-def is_id(tok: str) -> bool:
-    return isinstance(tok, str) and len(tok) == 1 and 'a' <= tok <= 'z'
-
 # Helper Functions
 
 # paren_L(E = child_tokens, E.prec = child_prec, p = p)
@@ -88,7 +85,7 @@ class Parser:
             S = paren_unary(S_toks, S_p, p) # add parentheses to sub expr if needed
             return (['not'] + S, p)
 
-        elif is_id(t):
+        elif t is not None and isinstance(t, str) and len(t) == 1 and 'a' <= t <= 'z': # id case
             self.match(t)  # consume the id
             return ([t], precedences['id'])
 

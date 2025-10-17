@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1760644246.17616 "/home/dannyzou18/Desktop/PROGLANG/prog-lang/hw3/HW3_latex.tex" "HW3_latex.pdf" "HW3_latex" 1760644246.35017 0
-  "/home/dannyzou18/Desktop/PROGLANG/prog-lang/hw3/HW3_latex.tex" 1760644245.99232 7208 fe178397e8446c513eac627f38177c5d ""
+["pdflatex"] 1760657376.00936 "/home/dannyzou18/Desktop/PROGLANG/prog-lang/hw3/HW3_latex.tex" "HW3_latex.pdf" "HW3_latex" 1760657376.17181 0
+  "/home/dannyzou18/Desktop/PROGLANG/prog-lang/hw3/HW3_latex.tex" 1760657375.83855 7245 8122723e3affb0c75de172e12b9a8bfe ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tctt0800.tfm" 1136768653 1536 3d9caa7b59d4d3f96d272d1de68d8742 ""
@@ -79,9 +79,9 @@
   "/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty" 1655066402 56148 51a9a8571c07b9921892ae11063ae853 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1737590400 40900 887e0dc8cac988a9e9c574af364cf837 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1757695037.35979 535263 72cb405c5fd7dd2dd41dc69a7813776f ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1757694996 7571880 390c7808616a95a41a115f0a75ce7d3a ""
-  "HW3_latex.aux" 1760644246.31732 168 03ac40d86c76e2f67750eb9ee5839097 "pdflatex"
-  "HW3_latex.tex" 1760644245.99232 7208 fe178397e8446c513eac627f38177c5d ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1760652751 7571881 a32174e6ad0681994d790505b24f16f1 ""
+  "HW3_latex.aux" 1760657376.13756 168 03ac40d86c76e2f67750eb9ee5839097 "pdflatex"
+  "HW3_latex.tex" 1760657375.83855 7245 8122723e3affb0c75de172e12b9a8bfe ""
   "IMG_0084.jpg" 1760469727.79285 122628 cf6cfdd5ff03781984173d50ee983671 ""
   (generated)
   "HW3_latex.aux"
